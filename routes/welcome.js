@@ -6,7 +6,7 @@ var port = require('../config').port;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('Magic happens at http://localhost/api:' + port);
+  res.send('Magic happens at http://' + req.get('host') + '/api/');
 });
 
 /* GET user detail. */
