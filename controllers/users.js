@@ -37,7 +37,7 @@ exports.postUser = function(req, res, next) {
   var err;
 
   // Check whether username and password are present or not
-  if (!req.body.Name ||
+  if (!req.body.name ||
       !req.body.password ||
       !req.body.fLastName ||
       !req.body.email) {
@@ -63,7 +63,7 @@ exports.postUser = function(req, res, next) {
 
   // Create new user with req information
   var newUser = new User({
-    Name: req.body.Name,
+    name: req.body.name,
     fLastName: req.body.fLastName,
     mLastName: req.body.mLastName,
     password: req.body.password,
@@ -92,7 +92,7 @@ exports.postUser = function(req, res, next) {
 
 exports.putUser = function(req, res, next) {
   if (
-    !req.body.Name ||
+    !req.body.name ||
     !req.body.fLastName ||
     !req.body.mLastName ||
     !req.body.password ||
@@ -108,7 +108,7 @@ exports.putUser = function(req, res, next) {
   }
 
   var updatedUser = {
-    Name: req.body.Name,
+    name: req.body.name,
     fLastName: req.body.fLastName,
     mLastName: req.body.mLastName,
     password: req.body.password,
@@ -149,7 +149,7 @@ exports.putUser = function(req, res, next) {
 exports.patchUser = function(req, res, next) {
   var updatedUser = {};
 
-  if (req.body.Name) updatedUser.Name = req.body.Name;
+  if (req.body.name) updatedUser.name = req.body.name;
   if (req.body.fLastName) updatedUser.fLastName = req.body.fLastName;
   if (req.body.mLastName) updatedUser.mLastName = req.body.mLastName;
   if (req.body.password) updatedUser.password = req.body.password;
