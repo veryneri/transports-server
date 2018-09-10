@@ -1,12 +1,12 @@
+'use strict';
+
 var User = require('../models').User;
 var customAPIError = require('../errors').customAPIError;
-var validator = require("email-validator");
-var config = require("../config");
-var jwt = require('jwt-simple');
+var validator = require('email-validator');
 
 exports.listUsers = function(req, res, next) {
   User.find({}, function(err, users) {
-    if(err) {
+    if (err) {
       return next(err);
     }
 
@@ -16,10 +16,10 @@ exports.listUsers = function(req, res, next) {
 
 exports.getUser = function(req, res, next) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if(err) {
+    if (err) {
       return next(err);
     }
-    if(!user) {
+    if (!user) {
       err = customAPIError(
         'UserNotFoundError',
         'User not found.',
@@ -34,12 +34,14 @@ exports.getUser = function(req, res, next) {
 };
 
 exports.postUser = function(req, res, next) {
+  var err;
+
   // Check whether username and password are present or not
   if (!req.body.Name ||
       !req.body.password ||
       !req.body.fLastName ||
       !req.body.email) {
-    var err = customAPIError(
+    err = customAPIError(
       'UnmetRequirementsError',
       'Username and password required.',
       400
@@ -50,7 +52,7 @@ exports.postUser = function(req, res, next) {
 
   // Validate email.
   if (!validator.validate(req.body.email)) {
-    var err = customAPIError(
+    err = customAPIError(
       'InvalidEmailError',
       'Invalid email address.',
       400
@@ -65,13 +67,13 @@ exports.postUser = function(req, res, next) {
     fLastName: req.body.fLastName,
     mLastName: req.body.mLastName,
     password: req.body.password,
-    email: req.body.email
+    email: req.body.email,
   });
 
   // Save the user
   newUser.save(function(err) {
     if (err) {
-      if (err.code == 11000) {
+      if (err.code === 11000) {
         err = customAPIError(
           'EmailDuplicateError',
           'Email is already registered.',
@@ -83,8 +85,8 @@ exports.postUser = function(req, res, next) {
     }
 
     return res
-            .status(201)
-            .json(newUser);
+      .status(201)
+      .json(newUser);
   });
 };
 
@@ -110,7 +112,7 @@ exports.putUser = function(req, res, next) {
     fLastName: req.body.fLastName,
     mLastName: req.body.mLastName,
     password: req.body.password,
-    email: req.body.email
+    email: req.body.email,
   };
 
   User.findOneAndUpdate(
@@ -119,7 +121,7 @@ exports.putUser = function(req, res, next) {
     { new: 1 },
     function(err, user){
       if (err) {
-        if (err.code == 11000) {
+        if (err.code === 11000) {
           err = customAPIError(
             'EmailDuplicateError',
             'Email is already registered.',
@@ -141,7 +143,7 @@ exports.putUser = function(req, res, next) {
       }
 
       return res.json(user);
-  });
+    });
 };
 
 exports.patchUser = function(req, res, next) {
@@ -160,7 +162,7 @@ exports.patchUser = function(req, res, next) {
       { new: 1 },
       function(err, user) {
         if (err) {
-          if (err.code == 11000) {
+          if (err.code === 11000) {
             err = customAPIError(
               'EmailDuplicateError',
               'Email is already registered.',
@@ -182,18 +184,18 @@ exports.patchUser = function(req, res, next) {
         }
 
         return res.json(user);
-    });
+      });
   }
 };
 
 exports.deleteUser = function(req, res, next) {
 
   User.findOneAndRemove({ _id: req.params.id }, function(err, user) {
-    if(err) {
+    if (err) {
       return next(err);
     }
 
-    if(!user) {
+    if (!user) {
       err = customAPIError(
         'UserNotFoundError',
         'User not found.',

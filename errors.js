@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('./config');
 
 function notFoundError(req, res, next) {
@@ -19,7 +21,7 @@ function customAPIError(name, message, status) {
   var err = new Error();
   err.status = normalizeStatus(status);
   err.name = name;
-  err.message = message
+  err.message = message;
 
   return err;
 }
@@ -31,5 +33,5 @@ function normalizeStatus(status) {
 module.exports = {
   notFoundError: notFoundError,
   internalServerError: internalServerError,
-  customAPIError: customAPIError
-}
+  customAPIError: customAPIError,
+};

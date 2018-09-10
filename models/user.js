@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcryptjs');
@@ -7,34 +9,34 @@ mongoose.Promise = global.Promise;
 var UserSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   fLastName: {
     type: String,
-    required: true
+    required: true,
   },
   mLastName: {
     type: String,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     required: true,
     type: String,
-    unique: true
-  }
+    unique: true,
+  },
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
   var user = this;
   if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.genSalt(10, function(err, salt) {
       if (err) {
         return next(err);
       }
-      bcrypt.hash(user.password, salt, function (err, hash) {
+      bcrypt.hash(user.password, salt, function(err, hash) {
         if (err) {
           return next(err);
         }
@@ -47,8 +49,8 @@ UserSchema.pre('save', function (next) {
   }
 });
 
-UserSchema.methods.comparePassword = function (passw, cb) {
-  bcrypt.compare(passw, this.password, function (err, isMatch) {
+UserSchema.methods.comparePassword = function(passw, cb) {
+  bcrypt.compare(passw, this.password, function(err, isMatch) {
     if (err) {
       return cb(err);
     }

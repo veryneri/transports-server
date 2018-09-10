@@ -1,6 +1,8 @@
+'use strict';
+
 var User = require('../models').User;
 var customAPIError = require('../errors').customAPIError;
-var config = require("../config");
+var config = require('../config');
 var jwt = require('jwt-simple');
 
 exports.loginUser = function(req, res, next) {
@@ -8,14 +10,14 @@ exports.loginUser = function(req, res, next) {
   if (!req.body.email ||
       !req.body.password) {
     var err = customAPIError('UnmetRequirementsError',
-                             'Email and password required.',
-                             400);
+      'Email and password required.',
+      400);
     return next(err);
   }
 
   // find the user
   User.findOne({
-    email: req.body.email
+    email: req.body.email,
   }, function(err, user) {
 
     if (err) return next(err);
@@ -23,21 +25,27 @@ exports.loginUser = function(req, res, next) {
     if (!user)
       return res
         .status(401)
-        .json({ success: false, message: 'Authentication failed. User not found.' });
+        .json({
+          success: false,
+          message: 'Authentication failed. User not found.',
+        });
 
     // if user is found and password is right
-    user.comparePassword(req.body.password, function (err, isMatch) {
+    user.comparePassword(req.body.password, function(err, isMatch) {
       if (err) return next(err);
 
       if (!isMatch) {
         return res
           .status(401)
-          .send({success: false, message: 'Authentication failed. Wrong password.'});
+          .send({
+            success: false,
+            message: 'Authentication failed. Wrong password.',
+          });
       }
 
       var payload = {
         email: user.email,
-        nombre: user.nombre
+        nombre: user.nombre,
       };
 
       // if user is found and password is right create a token

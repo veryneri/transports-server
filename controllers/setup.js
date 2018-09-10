@@ -1,3 +1,5 @@
+'use strict';
+
 var loadFixtures = require('../fixtures/load');
 var mongoose = require('mongoose');
 
@@ -8,7 +10,7 @@ exports.setUp = function(req, res, next) {
   // Try to load fixtures
   try {
     loadFixtures();
-  } catch(err) {
+  } catch (err) {
     return next(err);
   }
 

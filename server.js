@@ -1,9 +1,9 @@
 #!/usr/bin/env node
+'use strict';
 
 /**
  * Module dependencies.
  */
-
 var app = require('./app');
 var debug = require('debug')('transports:server');
 var http = require('http');
@@ -34,9 +34,9 @@ server.on('listening', onListening);
 /**
  * Set database connection.
  */
- var mongooseOption = {
-  useMongoClient: true
- };
+var mongooseOption = {
+  useMongoClient: true,
+};
 mongoose.connect(config.database, mongooseOption);
 
 /**
