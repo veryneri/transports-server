@@ -8,6 +8,8 @@ var database = require('../config').testDatabase;
 var loadFixtures = require('../fixtures/load');
 var uid = tests.users.userID;
 var userDetail = 'at /api/users/' + uid + '/';
+var employeeID = tests.employees.employeeID;
+var employeeDetail = 'at /api/employees/' + employeeID + '/';
 
 describe('server', function() {
 
@@ -24,12 +26,26 @@ describe('server', function() {
     mongoose.connection.db.dropDatabase();
   });
 
-  it('prints out welcome message at /', tests.welcome.helloWorld);
-  it('prints out welcome API message at /api/', tests.welcome.helloAPI);
-  it('lists users at /api/users/', tests.users.listUsers);
-  it('gets user ' + userDetail, tests.users.getUser);
-  it('posts user at /api/users/', tests.users.postUser);
-  it('patches user ' + userDetail, tests.users.patchUser);
-  it('puts user ' + userDetail, tests.users.putUser);
-  it('deletes user ' + userDetail, tests.users.deleteUser);
+  describe('welcome routes', function() {
+    it('prints out welcome message at /', tests.welcome.helloWorld);
+    it('prints out welcome API message at /api/', tests.welcome.helloAPI);
+  });
+
+  describe('users routes', function() {
+    it('lists users at /api/users/', tests.users.listUsers);
+    it('gets user ' + userDetail, tests.users.getUser);
+    it('posts user at /api/users/', tests.users.postUser);
+    it('patches user ' + userDetail, tests.users.patchUser);
+    it('puts user ' + userDetail, tests.users.putUser);
+    it('deletes user ' + userDetail, tests.users.deleteUser);
+  });
+
+  describe('employees routes', function() {
+    it('lists employees at /api/employees/', tests.employees.listEmployees);
+    it('gets employee ' + employeeDetail, tests.employees.getEmployee);
+    it('posts employee at /api/employees/', tests.employees.postEmployee);
+    it('patches employee ' + employeeDetail, tests.employees.patchEmployee);
+    it('puts employee ' + employeeDetail, tests.employees.putEmployee);
+    it('deletes employee ' + employeeDetail, tests.employees.deleteEmployee);
+  });
 });
