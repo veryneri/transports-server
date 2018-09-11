@@ -12,6 +12,7 @@ var employeeID = tests.employees.employeeID;
 var employeeDetail = 'at /api/employees/' + employeeID + '/';
 var vehicleID = tests.vehicles.vehicleID;
 var vehicleDetail = 'at /api/vehicles/' + vehicleID + '/';
+var loginUserID = tests.auth.userID;
 
 describe('server', function() {
 
@@ -31,6 +32,29 @@ describe('server', function() {
   describe('welcome routes', function() {
     it('prints out welcome message at /', tests.welcome.helloWorld);
     it('prints out welcome API message at /api/', tests.welcome.helloAPI);
+  });
+
+  describe('auth routes', function() {
+    it(
+      'returns error when no credentials passed to /api/auth/login',
+      tests.auth.loginUserWithNoCredentials
+    );
+    it(
+      'returns error when no password passed to /api/auth/login',
+      tests.auth.loginUserWithNoPassword
+    );
+    it(
+      'returns error when no email passed to /api/auth/login',
+      tests.auth.loginUserWithNoEmail
+    );
+    it(
+      'returns error when invalid credentials passed to /api/auth/login',
+      tests.auth.loginUserWithInvalidCredentials
+    );
+    it(
+      'returns a token to user ' + loginUserID + ' at /api/auth/login',
+      tests.auth.loginUser
+    );
   });
 
   describe('users routes', function() {
