@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  assignments: require('./assignments'),
   auth: require('./auth'),
   employees: require('./employees'),
   users: require('./users'),

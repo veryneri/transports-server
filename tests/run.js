@@ -12,6 +12,8 @@ var employeeID = tests.employees.employeeID;
 var employeeDetail = 'at /api/employees/' + employeeID + '/';
 var vehicleID = tests.vehicles.vehicleID;
 var vehicleDetail = 'at /api/vehicles/' + vehicleID + '/';
+var assignmentID = tests.assignments.assignmentID;
+var assignmentDetail = 'at /api/assignments/' + assignmentID + '/';
 var loginUserID = tests.auth.userID;
 
 describe('server', function() {
@@ -82,5 +84,32 @@ describe('server', function() {
     it('patches vehicle ' + vehicleDetail, tests.vehicles.patchVehicle);
     it('puts vehicle ' + vehicleDetail, tests.vehicles.putVehicle);
     it('deletes vehicle ' + vehicleDetail, tests.vehicles.deleteVehicle);
+  });
+
+  describe('assignments routes', function() {
+    it(
+      'lists assignments at /api/assignments/',
+      tests.assignments.listAssignments
+    );
+    it(
+      'gets assignment ' + assignmentDetail,
+      tests.assignments.getAssignment
+    );
+    it(
+      'posts assignment at /api/assignments/',
+      tests.assignments.postAssignment
+    );
+    it(
+      'patches assignment ' + assignmentDetail,
+      tests.assignments.patchAssignment
+    );
+    it(
+      'puts assignment ' + assignmentDetail,
+      tests.assignments.putAssignment
+    );
+    it(
+      'deletes assignment ' + assignmentDetail,
+      tests.assignments.deleteAssignment
+    );
   });
 });

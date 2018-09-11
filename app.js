@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(routes.welcome);
+app.use('/api/assignments', routes.assignments);
 app.use('/api/employees', routes.employees);
 app.use('/api/vehicles', routes.vehicles);
 app.use('/api/users', routes.users);
