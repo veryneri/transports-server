@@ -2,11 +2,12 @@
 
 var express = require('express');
 var router = express.Router();
-var port = require('../config').port;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('Magic happens at http://' + req.get('host') + '/api/');
+  res.send(
+    'Magic happens at http://' + req.get('host') + '/api/'
+  );
 });
 
 /* GET user detail. */
