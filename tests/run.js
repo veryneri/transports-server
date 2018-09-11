@@ -10,6 +10,8 @@ var uid = tests.users.userID;
 var userDetail = 'at /api/users/' + uid + '/';
 var employeeID = tests.employees.employeeID;
 var employeeDetail = 'at /api/employees/' + employeeID + '/';
+var vehicleID = tests.vehicles.vehicleID;
+var vehicleDetail = 'at /api/vehicles/' + vehicleID + '/';
 
 describe('server', function() {
 
@@ -47,5 +49,14 @@ describe('server', function() {
     it('patches employee ' + employeeDetail, tests.employees.patchEmployee);
     it('puts employee ' + employeeDetail, tests.employees.putEmployee);
     it('deletes employee ' + employeeDetail, tests.employees.deleteEmployee);
+  });
+
+  describe('vehicles routes', function() {
+    it('lists vehicles at /api/vehicles/', tests.vehicles.listVehicles);
+    it('gets vehicle ' + vehicleDetail, tests.vehicles.getVehicle);
+    it('posts vehicle at /api/vehicles/', tests.vehicles.postVehicle);
+    it('patches vehicle ' + vehicleDetail, tests.vehicles.patchVehicle);
+    it('puts vehicle ' + vehicleDetail, tests.vehicles.putVehicle);
+    it('deletes vehicle ' + vehicleDetail, tests.vehicles.deleteVehicle);
   });
 });

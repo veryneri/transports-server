@@ -16,6 +16,7 @@ app.use(cookieParser());
 
 app.use(routes.welcome);
 app.use('/api/employees', routes.employees);
+app.use('/api/vehicles', routes.vehicles);
 app.use('/api/users', routes.users);
 app.use('/api/auth', routes.auth);
 app.use('/api/setup', routes.setup);
