@@ -3,8 +3,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
-var documentTypes = require('./documentType').documentType;
-var enumDocumentTypes = documentTypes.map(mapDocumentTypes);
 var EmployeeSchema = new Schema({
   name: {
     type: String,
@@ -21,9 +19,7 @@ var EmployeeSchema = new Schema({
     type: Number,
     required: true,
     validate: {
-      validator: function(v) {
-        return enumDocumentTypes.indexOf(v) >= 0;
-      },
+      validator: documentTypeAllowedValues,
       message: '{VALUE} is not a valid documentType.',
     },
   },
@@ -42,8 +38,13 @@ EmployeeSchema.index(
   }
 );
 
-function mapDocumentTypes(documentType) {
-  return documentType._id;
+function documentTypeAllowedValues(v) {
+  var documentTypes = require('./documentType').documentType;
+  var allowedValues = documentTypes.map(function(dType) {
+    return dType._id;
+  });
+
+  return allowedValues.indexOf(v) >= 0;
 }
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

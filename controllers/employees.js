@@ -107,7 +107,10 @@ exports.putEmployee = function(req, res, next) {
   Employee.findOneAndUpdate(
     { _id: req.params.id },
     { $set: updatedEmployee },
-    { new: 1 },
+    {
+      new: 1,
+      runValidators: true,
+    },
     function(err, employee){
       if (err) {
         if (err.code === 11000) {
@@ -150,7 +153,10 @@ exports.patchEmployee = function(req, res, next) {
     Employee.findOneAndUpdate(
       { _id: req.params.id },
       { $set: updatedEmployee },
-      { new: 1 },
+      {
+        new: 1,
+        runValidators: true,
+      },
       function(err, employee) {
         if (err) {
           if (err.code === 11000) {
