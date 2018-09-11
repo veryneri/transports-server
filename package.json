@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "start": "node ./server",
-    "start:dev": "nodemon ./server"
+    "start:dev": "nodemon ./server",
+    "test": "mocha ./tests/run"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,7 +24,9 @@
     "eslint": "^5.5.0",
     "eslint-config-strongloop": "^2.1.0",
     "nodemon": "^1.15.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "pre-push": "^0.1.1"
   },
-  "pre-commit": ["lint"]
+  "pre-commit": ["lint"],
+  "pre-push": ["test"]
 }
