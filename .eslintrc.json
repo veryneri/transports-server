@@ -1,6 +1,10 @@
 {
   "env": {
-    "mocha": true
+    "mocha": true,
+    "es6": true
   },
-	"extends": ["strongloop"]
+	"extends": ["strongloop"],
+  "parserOptions": {
+      "ecmaVersion": 2017
+  }
 }
