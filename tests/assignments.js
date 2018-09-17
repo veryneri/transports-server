@@ -10,8 +10,8 @@ var assignmentID = expected.get._id;
 var url = 'http://localhost:' + port;
 var assignmentsListURL = url + '/api/assignments/';
 var assignmentDetailURL = url + '/api/assignments/' + assignmentID + '/';
-var employeeFixture = require('./expected').employees.get;
-var vehicleFixture = require('./expected').vehicles.get;
+var employeesFixture = require('./expected').employees.list;
+var vehiclesFixture = require('./expected').vehicles.list;
 
 function listAssignments(done) {
   superagent
@@ -27,8 +27,8 @@ function listAssignments(done) {
 
 function postAssignment(done) {
   var newAssignment = {
-    vehicle: vehicleFixture._id,
-    employee: employeeFixture._id,
+    vehicle: vehiclesFixture[1]._id,
+    employee: employeesFixture[1]._id,
     active: true,
     startGeoPoint: [99.456764, -44.880000],
     endGeoPoint: [99.556764, -44.980000],
@@ -43,7 +43,47 @@ function postAssignment(done) {
       Assignment.findOne({_id: res.body._id}, function(err, assignment) {
         assert.ifError(err);
         assert.ok(assignment);
+        done();
       });
+    });
+}
+
+function postAssignmentEmployeeAlreadyAssigned(done) {
+  var newAssignment = {
+    vehicle: vehiclesFixture[2]._id,
+    employee: employeesFixture[1]._id,
+    active: true,
+    startGeoPoint: [99.456764, -44.880000],
+    endGeoPoint: [99.556764, -44.980000],
+  };
+
+  superagent
+    .post(assignmentsListURL)
+    .send(newAssignment)
+    .end(function(error, res) {
+      assert.ifError(!error);
+      assert.equal(res.status, 400);
+      assert.equal(res.body.error.name, 'EmployeeAlreadyAssignedError');
+      done();
+    });
+}
+
+function postAssignmentVehicleAlreadyAssigned(done) {
+  var newAssignment = {
+    vehicle: vehiclesFixture[1]._id,
+    employee: employeesFixture[2]._id,
+    active: true,
+    startGeoPoint: [99.456764, -44.880000],
+    endGeoPoint: [99.556764, -44.980000],
+  };
+
+  superagent
+    .post(assignmentsListURL)
+    .send(newAssignment)
+    .end(function(error, res) {
+      assert.ifError(!error);
+      assert.equal(res.body.error.name, 'VehicleAlreadyAssignedError');
+      assert.equal(res.status, 400);
       done();
     });
 }
@@ -62,8 +102,8 @@ function getAssignment(done) {
 
 function putAssignment(done) {
   var updatedAssignment = {
-    vehicle: vehicleFixture._id,
-    employee: employeeFixture._id,
+    vehicle: vehiclesFixture[1]._id,
+    employee: employeesFixture[1]._id,
     active: false,
     startGeoPoint: [99.576764, -44.880000],
     endGeoPoint: [99.566764, -44.980000],
@@ -88,8 +128,8 @@ function putAssignment(done) {
           assignment.startGeoPoint.toString(),
           updatedAssignment.startGeoPoint.toString()
         );
+        done();
       });
-      done();
     });
 }
 
@@ -110,8 +150,8 @@ function patchAssignment(done) {
           assignment.startGeoPoint.toString(),
           updatedAssignment.startGeoPoint.toString()
         );
+        done();
       });
-      done();
     });
 }
 
@@ -125,14 +165,18 @@ function deleteAssignment(done) {
       Assignment.findOne({_id: assignmentID}, function(err, assignment) {
         assert.ifError(err);
         assert.ok(!assignment);
+        done();
       });
-      done();
     });
 }
 
 module.exports = {
   listAssignments: listAssignments,
   postAssignment: postAssignment,
+  postAssignmentEmployeeAlreadyAssigned:
+  postAssignmentEmployeeAlreadyAssigned,
+  postAssignmentVehicleAlreadyAssigned:
+  postAssignmentVehicleAlreadyAssigned,
   getAssignment: getAssignment,
   putAssignment: putAssignment,
   patchAssignment: patchAssignment,

@@ -100,6 +100,16 @@ describe('server', function() {
       tests.assignments.postAssignment
     );
     it(
+      'returns error when posting assignment with already ' +
+      'assigned employee at /api/assignments/',
+      tests.assignments.postAssignmentEmployeeAlreadyAssigned
+    );
+    it(
+      'returns error when posting assignment with already ' +
+      'assigned vehicle at /api/assignments/',
+      tests.assignments.postAssignmentVehicleAlreadyAssigned
+    );
+    it(
       'patches assignment ' + assignmentDetail,
       tests.assignments.patchAssignment
     );
