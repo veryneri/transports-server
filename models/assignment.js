@@ -86,11 +86,10 @@ AssignmentSchema.pre('save', function(next) {
       ],
     },
     function(err, currentAssignment) {
-      console.log(currentAssignment);
       if (err)
         return next(err);
 
-      if (currentAssignment) {
+      if (currentAssignment && newAssignment.active) {
         if (
           currentAssignment.vehicle.toString() ===
           newAssignment.vehicle.toString()
