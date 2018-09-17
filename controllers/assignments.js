@@ -96,43 +96,34 @@ exports.putAssignment = function(req, res, next) {
     return next(err);
   }
 
-  var updatedAssignment = {
-    active: req.body.active,
-    employee: req.body.employee,
-    endGeoPoint: req.body.endGeoPoint,
-    startGeoPoint: req.body.startGeoPoint,
-    vehicle: req.body.vehicle,
-  };
+  Assignment.findOne({ _id: req.params.id }, function(err, assignment) {
+    if (err) {
+      return next(err);
+    }
+    if (!assignment) {
+      err = customAPIError(
+        'AssignmentNotFoundError',
+        'Assignment not found.',
+        404
+      );
 
-  Assignment.findOneAndUpdate(
-    { _id: req.params.id },
-    { $set: updatedAssignment },
-    { new: 1 },
-    function(err, assignment){
+      return next(err);
+    }
+
+    assignment.active = req.body.active;
+    assignment.employee = req.body.employee;
+    assignment.endGeoPoint = req.body.endGeoPoint;
+    assignment.startGeoPoint = req.body.startGeoPoint;
+    assignment.vehicle = req.body.vehicle;
+
+    assignment.save(function(err) {
       if (err) {
-        if (err.code === 11000) {
-          err = customAPIError(
-            'AssignmentDuplicateError',
-            'Assignment is already registered.',
-            400
-          );
-        }
-
-        return next(err);
-      }
-
-      if (!assignment) {
-        err = customAPIError(
-          'AssignmentNotFoundError',
-          'Assignment not found.',
-          404
-        );
-
         return next(err);
       }
 
       return res.json(assignment);
     });
+  });
 };
 
 exports.patchAssignment = function(req, res, next) {
